@@ -1,0 +1,14 @@
+
+{% extends 'core/base.html' %}
+{% block content%}
+How was the product helpful?
+<div class="experience">
+<form method="POST">
+    {% csrf_token %}
+Username: <input type="text" name="user-name"/><br><br>
+Share :<input type="text" name="exp" class="experienceinp"/><br>
+<button type="submit">Submit</button>
+</form>
+</div>
+ 
+{% endblock content%}

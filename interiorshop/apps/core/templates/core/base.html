@@ -1,0 +1,253 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% block title %}{% endblock %}Restack</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+        <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+
+        <script src="{% static 'scripts/main.js' %}"></script>
+      
+        <script type="text/javascript">
+            function initGeolocation()
+            {
+               if( navigator.geolocation )
+               {
+                  // Call getCurrentPosition with success and failure callbacks
+                  navigator.geolocation.getCurrentPosition( success, fail );
+               }
+               else
+               {
+                  alert("Sorry, your browser does not support geolocation services.");
+               }
+            }
+       
+            function success(position)
+            {
+             
+                longi=document.getElementById('long').value = position.coords.longitude;
+                lati=document.getElementById('lat').value = position.coords.latitude;
+                var center = {lat: lati, lng: longi};
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 10,
+                    center: center
+                });
+                var locations = [[lati,longi],];
+                
+                
+                var infowindow =  new google.maps.InfoWindow({});
+                var marker, count;
+                for (count = 0; count < locations.length; count++) {
+                    marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[0][0], locations[0][1]),
+                    map: map,
+                    title: "ME",
+                    });
+                google.maps.event.addListener(marker, 'click', (function (marker, count) {
+                    return function () {
+                        infowindow.setContent(locations[0][0]);
+                        infowindow.open(map, marker);
+                    }
+                    })(marker, count));
+                }
+            }
+
+
+            
+
+            
+       
+            function fail()
+            {
+               // Could not obtain location
+            }
+       
+          </script>  
+    </head>
+
+      
+    
+   
+    <body onLoad="initGeolocation();">
+   
+           
+        <div class="loader">
+            <img src="{% static 'loading1.gif' %}" alt="Save environment by reusing" />
+            <b>Reuse Recycle</b>
+        </div>
+       
+   
+        
+        
+        <nav class="navbar is-light ">
+            <div class="navbar-brand">
+                <a href="/" class="navbar-item"><strong>Restack</strong></a>
+        
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="main-navbar">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+        
+            <div class="navbar-menu" id="main-navbar">
+                <div class="navbar-start">
+                    <div class="navbar-item">
+                        <form method="get" action="{% url 'search' %}">
+                            <div class="field has-addons">
+                                <div class="control">
+                                    <input type="text" class="input" placeholder="Search..." name="query">
+                                </div>
+                                <div class="control">
+                                    <button class="button is-dark is-uppercase">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="navbar-end">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'contact' %}" class="navbar-item">Contact</a>
+                    
+                    <a href="{% url 'vendor_admin' %}" class="navbar-item">Profile</a>
+                    <a href="{% url 'vendors' %}"class="navbar-item">Check Vendors</a>
+                    
+                    <div class="navbar-item">
+                        <a href="{% url 'cart' %}" class="button-cart">Cart{% if cart %} ({{ cart|length }}){% endif %}</a>
+                    </div>
+                    <a href="{% url 'logout' %}" class="navbar-item">Log out</a>
+                {% else %}                   
+                <a href="{% url 'become_vendor' %}" class="navbar-item">Sign Up</a> 
+                <a href="{% url 'login' %}" class="navbar-item">Sign In</a>   
+                {% endif %}
+                </div>
+            </div>
+        </nav>
+        <br>
+        <center>
+            
+            <style>
+p{
+    color:#445C57;
+}
+.loader {
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    border: none;
+    border-radius: 0;
+    /* background-color: #fff; */
+    filter: blur(1px);
+    justify-content: center;
+    align-items: center;
+}
+
+.loader > img {
+    width: 100px;
+}
+
+.loader.hidden {
+    animation: fadeOut 2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeOut {
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+
+            </style>
+            <script>window.addEventListener("load", function () {
+                const loader = document.querySelector(".loader");
+                
+                loader.className += " hidden";
+                // class "loader hidden"
+            });
+            
+            </script>
+                 {% block content1 %}
+        <div class="category">
+            {% for category in menu_categories %}
+            <a href="{% url 'category' category.slug %}" class="category-item">{{ category.title }}</a>
+        {% endfor %}
+    </div>
+</center>
+  
+        <section class="section">
+            
+            
+            <div class="container">
+                
+                {% block content %}
+                {% endblock %}
+            </div>
+        </section>
+
+
+<center>
+    <br>
+    <br>
+    <h2 class="is-size-3">Near me</h2>
+    <br>
+    <br>
+    
+        <div id="map"></div>
+        <!-- <script type="text/javascript" src="{% static 'map.js' %}"></script> -->
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC--KHcoeVni4y17zCD-HvEtvqkhOdVMgI&callback=initMap">
+        </script>
+    </center>
+        <style>
+        #map {
+          height: 400px;
+          width: 900px;
+          background-color: grey;
+        }
+        </style>
+        
+        <footer class="footer">
+            <center>
+               
+            <h3 class="is-size-10 mb-4"> Substantially reduce waste generation through prevention, reduction, recycling and reuse and Restack helps and supports the cause.
+            <br><br>    <FORM NAME="rd" METHOD="GET" ACTION="core.html">
+                    Longitude:<INPUT TYPE="text" NAME="long" ID="long" VALUE="">
+                    Latitude:<INPUT TYPE="text" NAME="lat" ID="lat" VALUE="">
+            </h3></center>
+<!--         
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'vendor_admin' %}">Vendor admin</a>
+            {% else %}
+                <a href="{% url 'become_vendor' %}">Become vendor</a>
+            {% endif %} -->
+<center>
+</center>
+        </footer>
+
+        {% block scripts %}
+        {% endblock %}
+
+
+
+
+        {% endblock content1 %}
+
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
