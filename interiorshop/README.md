@@ -42,3 +42,8 @@ lightgreen=#889F8A
 
 slug is for validation or creation of valid url
 
+Task today
+[1] map add locations 
+[2] remove map from all pages [done]
+[3] check for orders being added [done]
+[4] email sending [done]

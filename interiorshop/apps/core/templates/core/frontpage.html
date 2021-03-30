@@ -3,7 +3,63 @@
 {% block title %}Reuse | {% endblock %}
 
 {% block content %}
-<section class="user-stories">
+<script type="text/javascript">
+    function initGeolocation()
+    {
+       if( navigator.geolocation )
+       {
+          // Call getCurrentPosition with success and failure callbacks
+          navigator.geolocation.getCurrentPosition( success, fail );
+       }
+       else
+       {
+          alert("Sorry, your browser does not support geolocation services.");
+       }
+    }
+
+    function success(position)
+    {
+     
+        longi=document.getElementById('long').value = position.coords.longitude;
+        lati=document.getElementById('lat').value = position.coords.latitude;
+        var center = {lat: lati, lng: longi};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 1,
+            center: center
+        });
+        stat_val=[62.2270,105.3809 ]
+        new_l=[lati,longi];
+        var locations = [];
+        
+        locations.push(new_l)
+        locations.push(stat_val)
+        
+        
+        
+        var infowindow =  new google.maps.InfoWindow({});
+        var marker, count;
+        for (count = 0; count < locations.length; count++) {
+          
+            marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[count][0], locations[count][1]),
+            map: map,
+            title: "ME",
+            });
+        google.maps.event.addListener(marker, 'click', (function (marker, count) {
+            return function () {
+                infowindow.setContent(locations[count][0]);
+                infowindow.open(map, marker);
+            }
+            })(marker, count));
+        }
+    }
+    function fail()
+    {
+       // Could not obtain location
+    }
+
+  </script> 
+<section  class="user-stories" >
    
     <div class="columns is-multiline mb-6">
         <div class="column is-12 has-text-centered mt-6 mb-6">
@@ -42,4 +98,28 @@
             {% include 'product/parts/list_item.html' %}
         {% endfor %}
     </div>
+
+<center>
+
+    <h2 class="is-size-3">Near me</h2>
+    <br>
+    <br>
+    
+        <div id="map"></div>
+        
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC--KHcoeVni4y17zCD-HvEtvqkhOdVMgI&callback=initMap">
+        </script>
+   
+        <style>
+        #map {
+          height: 400px;
+          width: 900px;
+          background-color: grey;
+        }
+        </style>
+        <br>
+          <FORM NAME="rd" METHOD="GET" ACTION="core.html">
+            Longitude:<INPUT TYPE="text" NAME="long" ID="long" VALUE="">
+            Latitude:<INPUT TYPE="text" NAME="lat" ID="lat" VALUE=""></FORM> </center>
 {% endblock %}

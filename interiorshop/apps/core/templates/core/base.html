@@ -14,7 +14,7 @@
 
         <script src="{% static 'scripts/main.js' %}"></script>
       
-        <script type="text/javascript">
+        <!-- <script type="text/javascript">
             function initGeolocation()
             {
                if( navigator.geolocation )
@@ -68,13 +68,13 @@
                // Could not obtain location
             }
        
-          </script>  
+          </script>   -->
     </head>
 
       
     
    
-    <body onLoad="initGeolocation();">
+    <body  onLoad="initGeolocation();">
    
            
         <div class="loader">
@@ -201,32 +201,16 @@ p{
 <center>
     <br>
     <br>
-    <h2 class="is-size-3">Near me</h2>
-    <br>
-    <br>
     
-        <div id="map"></div>
-        <!-- <script type="text/javascript" src="{% static 'map.js' %}"></script> -->
-        <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC--KHcoeVni4y17zCD-HvEtvqkhOdVMgI&callback=initMap">
-        </script>
-    </center>
-        <style>
-        #map {
-          height: 400px;
-          width: 900px;
-          background-color: grey;
-        }
-        </style>
         
         <footer class="footer">
             <center>
-               
-            <h3 class="is-size-10 mb-4"> Substantially reduce waste generation through prevention, reduction, recycling and reuse and Restack helps and supports the cause.
+                <h3 class="is-size-10 mb-4"> Substantially reduce waste generation through prevention, reduction, recycling and reuse and Restack helps and supports the cause.</h3>
+            <!-- 
             <br><br>    <FORM NAME="rd" METHOD="GET" ACTION="core.html">
                     Longitude:<INPUT TYPE="text" NAME="long" ID="long" VALUE="">
                     Latitude:<INPUT TYPE="text" NAME="lat" ID="lat" VALUE="">
-            </h3></center>
+            </h3></center> -->
 <!--         
             {% if request.user.is_authenticated %}
                 <a href="{% url 'vendor_admin' %}">Vendor admin</a>

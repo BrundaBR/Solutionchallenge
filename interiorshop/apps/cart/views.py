@@ -16,6 +16,7 @@ def mapplot(request):
 
 
 def placeorder(request):
+    cart=Cart(request)
     if request.method == 'POST':
         form = CheckoutForm(request.POST)
         if form.is_valid():
@@ -33,8 +34,9 @@ def placeorder(request):
                 for item in Cart(request):
                     ordr=OrderItem.objects.create( order=order,product=item['product'], vendor=item['product'].vendor, price=item['product'].price, quantity=item['quantity'])
                     order.vendors.add(item['product'].vendor)
-                # notify_customer(order)
-                # notify_vendor(order)
+                notify_customer(order)
+                notify_vendor(order)
+                cart.clear()
                 return redirect('success')
                 
             except Exception:
@@ -42,6 +44,24 @@ def placeorder(request):
     else:
         form = CheckoutForm()
     return render(request,'cart/placeorder.html',{'form': form})
+
+def success(request):
+    return render(request, 'cart/success.html')
+
+def user_experience(request):
+    if request.method=="POST":
+        exp=request.POST["exp"]
+        username=request.POST["user-name"]
+        usr_exp=UserExperience(user=username,feedback=exp)
+        usr_exp.save()
+        redirect('/')
+        
+    return render(request,'cart/user-exp.html') 
+
+def display_user_exp(request):
+    exp_content=UserExperience.objects.all()
+    return exp_content
+
 
 def cart_detail(request):
     # cart = Cart(request)
@@ -94,20 +114,4 @@ def cart_detail(request):
 
         return redirect('cart')
 
-    return render(request, 'cart/cart.html', {'form': form, 'stripe_pub_key': settings.STRIPE_PUB_KEY})
-
-def success(request):
-    return render(request, 'cart/success.html')
-
-def user_experience(request):
-    if request.method=="POST":
-        exp=request.POST["exp"]
-        username=request.POST["user-name"]
-        usr_exp=UserExperience(user=username,feedback=exp)
-        usr_exp.save()
-        
-    return render(request,'cart/user-exp.html') 
-
-def display_user_exp(request):
-    exp_content=UserExperience.objects.all()
-    return exp_content
+    return render(request, 'cart/cart.html', {'form': form})

@@ -1,14 +1,30 @@
 
 {% extends 'core/base.html' %}
 {% block content%}
-How was the product helpful?
+
+<center>
+    <h1 class="title">Share experiences to help other people know</h1>
+<br>
+<br>
 <div class="experience">
+    <center>
 <form method="POST">
     {% csrf_token %}
-Username: <input type="text" name="user-name"/><br><br>
-Share :<input type="text" name="exp" class="experienceinp"/><br>
+Vendor's Username: <input type="text" name="user-name"/><br><br>
+Share :     <input type="text" name="exp" class="experienceinp"/><br>
 <button type="submit">Submit</button>
+
 </form>
 </div>
- 
+
+</center>
+<style>
+    input{
+        width: 100px;
+    }
+    .experienceinp{
+        width: 500px;
+        height: 200px;
+    }
+</style>
 {% endblock content%}
