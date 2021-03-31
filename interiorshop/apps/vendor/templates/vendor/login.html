@@ -4,6 +4,7 @@
 
 {% block content %}
 <center>
+    <div class="card" style="width: 300px;">
     <h1 class="title">Log in</h1>
 
     <form method="post" action=".">
@@ -13,10 +14,12 @@
         {{ form|crispy }}
 
         <div class="field">
-            <div class="control">
+            <div class="control"><br>
                 <button class="button is-dark is-uppercase">Log in</button>
             </div>
+            <br>
         </div>
     </form>
+</div>
 </center>
 {% endblock %}

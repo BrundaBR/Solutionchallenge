@@ -6,12 +6,12 @@
     text-transform: uppercase;
 }
 
-    .navbar .is-dark {
+    /* .navbar .is-dark {
         background: #889F8A;
     } 
 nav{
         background-color: #889F8A;
-    }
+    } */
  
 /**
 * Footer 
@@ -83,6 +83,7 @@ nav{
     box-shadow: 0px 0px 10px #889F8A;
     border-radius: 1rem;
     
+    
 
 
 
@@ -90,6 +91,7 @@ nav{
 .category-item:hover{
     background-color: #445C57;
     color: #fff;
+    width: 70px;
 
 }
 .experience{

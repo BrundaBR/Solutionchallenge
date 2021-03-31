@@ -8,6 +8,7 @@ from .models import Vendor,User_location
 from apps.product.models import Product
 from apps.order.models import OrderItem
 
+
 from .forms import *
 def user_location(request):
     
@@ -40,28 +41,53 @@ def become_vendor(request):
         form = UserCreationForm()
 
     return render(request, 'vendor/become_vendor.html', {'form': form})
+def become_vendor_google(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+
+            login(request, user)
+
+            vendor = Vendor.objects.create(name=user.username, created_by=user)
+            # user_location(request)
+
+            return redirect('awarnesspage')
+    else:
+        form = UserCreationForm()
+    return render(request, 'vendor/become_vendor_google.html', {'form': form})
 
 @login_required
 def vendor_admin(request):
-    
-    vendor = request.user.vendor
-    products = vendor.products.all()
-    orders = vendor.orders.all()
+    try:
+        vendor = request.user.vendor
+        
 
-    for order in orders:
-        order.vendor_amount = 0
-        order.vendor_paid_amount = 0
-        order.fully_paid = True
+        products = vendor.products.all()
+        orders = vendor.orders.all()
+        if vendor==None:
+            vendor = Vendor.objects.create()
 
-        for item in order.items.all():
-            if item.vendor == request.user.vendor:
-                if item.vendor_paid:
-                    order.vendor_paid_amount += item.get_total_price()
-                else:
-                    order.vendor_amount += item.get_total_price()
-                    order.fully_paid = False
 
-    return render(request, 'vendor/vendor_admin.html', {'vendor': vendor, 'products': products, 'orders': orders})
+        for order in orders:
+            order.vendor_amount = 0
+            order.vendor_paid_amount = 0
+            order.fully_paid = True
+
+            for item in order.items.all():
+                if item.vendor == request.user.vendor:
+                    if item.vendor_paid:
+                        order.vendor_paid_amount += item.get_total_price()
+                    else:
+                        order.vendor_amount += item.get_total_price()
+                        order.fully_paid = False
+
+        return render(request, 'vendor/vendor_admin.html', {'vendor': vendor, 'products': products, 'orders': orders})
+    except:
+        print('error')
+
+        return render(request, 'vendor/vendor_admin.html')
 
 @login_required
 def add_product(request):

@@ -58,46 +58,79 @@
        // Could not obtain location
     }
 
-  </script> 
-<section  class="user-stories" >
-   
-    <div class="columns is-multiline mb-6">
-        <div class="column is-12 has-text-centered mt-6 mb-6">
-            <h2 class="is-size-3">Product Stories</h2>
-        </div>
-
-        {% for e in exp %}
-        
-            {% include 'product/parts/share_item.html' %}
+  </script>  
+  <center> <div class="category">
+            {% for category in menu_categories %}
+            <a href="{% url 'category' category.slug %}" class="category-item">{{ category.title }}</a>
         {% endfor %}
     </div>
-    <style>
-        .e-list-item{
-           
-            width: 100%;
-        }
-    .e-list-item .box .price {
-        color: #888;
-    }
-    
-    .e-list-item .box{
-        width: 300px;
-        height: 200px;
-        margin-left:0px ;
+
+<br>
+<br>
+
+    <div class="control">
+        <input type="text" class="input" placeholder="Search..." name="query"><button class="button1">Search</button>
+    </div>
+     <style>
+         .button1{
+             background-color: #889F8A;
+             color: white;
+             font-family: Verdana, Geneva, Tahoma, sans-serif;
+             font-weight: 500;
+             border-color: none;
+             border: none;
+             height: 30px;
+
+         }
+         .input{
+        width: 400px;
+        height: 30px;
         
-    }</style>
-   
-</section>
+    }
+
+     </style>
+    </center>
+    
+
 
     <div class="columns is-multiline mb-6">
         <div class="column is-12 has-text-centered mt-6 mb-6">
-            <h2 class="is-size-3">Newest products</h2>
+            <h2 class="is-size-3">Products Available</h2>
         </div>
 
         {% for product in newest_products %}
             {% include 'product/parts/list_item.html' %}
         {% endfor %}
     </div>
+    <section  class="user-stories" >
+   
+        <div class="columns is-multiline mb-6">
+            <div class="column is-12 has-text-centered mt-6 mb-6">
+                <h2 class="is-size-3">Stories</h2>
+            </div>
+    
+            {% for e in exp %}
+            
+                {% include 'product/parts/share_item.html' %}
+            {% endfor %}
+        </div>
+        <style>
+            .e-list-item{
+               
+                width: 100%;
+            }
+        .e-list-item .box .price {
+            color: #888;
+        }
+        
+        .e-list-item .box{
+            width: 300px;
+            height: 200px;
+            margin-left:0px ;
+            
+        }</style>
+       
+    </section>
 
 <center>
 

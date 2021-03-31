@@ -50,6 +50,13 @@ EMAIL_USE_TLS = True
 # Application definition
 
 INSTALLED_APPS = [
+    
+    
+    'django.contrib.sites',
+    'allauth.socialaccount.providers.google',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -64,7 +71,7 @@ INSTALLED_APPS = [
     'crispy_forms',
    
 ]
-
+SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -109,6 +116,13 @@ DATABASES = {
 }
 
 
+AUTHENTICATION_BACKENDS = [
+   
+    'django.contrib.auth.backends.ModelBackend',
+
+    'allauth.account.auth_backends.AuthenticationBackend',
+ 
+]
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
