@@ -39,12 +39,7 @@ CART_SESSION_ID = 'cart'
 #email   
 
 
-EMAIL_BACKEND= 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST='smtp.gmail.com'
-EMAIL_HOST_USER = 'revadibrunda@gmail.com'
-EMAIL_HOST_PASSWORD = 'balkrishna'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+
 # DEFAULT_EMAIL_FROM = 'revadibrunda@gmail.com'
 
 # Application definition
